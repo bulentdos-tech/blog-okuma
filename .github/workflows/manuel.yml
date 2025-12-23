@@ -1,24 +1,30 @@
 name: Blogu Tara ve Getir
+
 on:
-  workflow_dispatch: # Bu satır "Çalıştır" butonunu oluşturur
+  workflow_dispatch:
 
 jobs:
   taramayi-baslat:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Depoyu Kopyala
+        uses: actions/checkout@v3
+
       - name: Python Kur
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-      - name: Kütüphaneyi Yükle
+
+      - name: Kütüphaneleri Yukle
         run: pip install feedparser
-      - name: Kodu Çalıştır
+
+      - name: Kodu Calistir
         run: python main.py
+
       - name: Sonucu Kaydet
         run: |
-          git config --global user.name 'Asistan'
-          git config --global user.email 'asistan@github.com'
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add sonuclar.md
-          git commit -m "Yeni yazılar eklendi" || exit 0
+          git commit -m "Sonuclar güncellendi" || exit 0
           git push
